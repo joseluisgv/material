@@ -48,7 +48,11 @@ function TabItemController($scope, $element, $attrs, $compile, $animate, $mdUtil
     });
   }
 
-  function onSelect() {
+  function toggleAnimationClass(rightToLeft) {
+    self.contentContainer[rightToLeft ? 'addClass' : 'removeClass']('md-transition-rtl');
+  }
+
+  function onSelect(rightToLeft) {
     // Resume watchers and events firing when tab is selected
     $mdUtil.reconnectScope(self.contentScope);
     self.hammertime.on('swipeleft swiperight', $scope.onSwipe);
@@ -56,12 +60,13 @@ function TabItemController($scope, $element, $attrs, $compile, $animate, $mdUtil
     $element.addClass('active');
     $element.attr('aria-selected', true);
     $element.attr('tabIndex', 0);
+    toggleAnimationClass(rightToLeft);
     $animate.removeClass(self.contentContainer, 'ng-hide');
 
     $scope.onSelect();
   }
 
-  function onDeselect() {
+  function onDeselect(rightToLeft) {
     // Stop watchers & events from firing while tab is deselected
     $mdUtil.disconnectScope(self.contentScope);
     self.hammertime.off('swipeleft swiperight', $scope.onSwipe);
@@ -70,6 +75,7 @@ function TabItemController($scope, $element, $attrs, $compile, $animate, $mdUtil
     $element.attr('aria-selected', false);
     // Only allow tabbing to the active tab
     $element.attr('tabIndex', -1);
+    toggleAnimationClass(rightToLeft);
     $animate.addClass(self.contentContainer, 'ng-hide');
 
     $scope.onDeselect();
