@@ -25,8 +25,8 @@ md-dialog {
   min-width: 240px;
   max-width: 80%;
   max-height: 80%;
-  margin: auto;
   position: relative;
+  overflow: hidden; // stop content from leaking out of dialog parent
 
   box-shadow: $whiteframe-shadow-z5;
 
@@ -39,7 +39,7 @@ md-dialog {
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 
-    *:first-child {
+    &:not([layout=row]) *:first-child {
       margin-top: 0px;
     }
   }
